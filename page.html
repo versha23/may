@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f9e8ff;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+
+
+        html, body {
+  height: 100%;
+  width: 100%;
+}
+
+.video-background {
+  position: fixed; /* stays fixed behind everything */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1; /* keeps it behind all content */
+}
+
+.video-background video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  color: white;
+  text-align: center;
+  padding-top: 40vh;
+  font-size: 2rem;
+}
+
+
+@media screen and (max-width: 768px) {
+    #cake-container {
+        transform: translate(-50%, -20%) scale(0.8);
+    }
+    
+    .hanging-photo {
+        width: 80px;
+        height: 120px;
+    }
+    
+    #message {
+        font-size: 24px;
+    }
+    
+    #instruction {
+        font-size: 18px;
+    }
+    
+    #blow-button {
+        font-size: 16px;
+    }
+    
+    #video-container {
+        width: 80% !important;
+        left: 10% !important;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #cake-container {
+        transform: translate(-50%, -15%) scale(0.6);
+    }
+    
+    .hanging-photo {
+        width: 60px;
+        height: 90px;
+    }
+    
+    #photo-left-1, #photo-right-1 {
+        display: none;
+    }
+}
+        
+        
+        /* Cake styling with new approach */
+        #cake-container {
+  position: absolute; /* Use absolute or fixed for true centering */
+  top: 60%;           /* Push it a bit below center */
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center horizontally & vertically */
+  width: 300px;
+  height: 400px;
+  z-index: 2;
+}
+
+        .cake-layer {
+            position: absolute;
+            width: 0;
+            height: 60px;
+            background: #ffffff;
+            border-radius: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            backface-visibility: hidden;
+            animation: none;
+            opacity: 1;
+        }
+
+        #layer1 {
+            width: 0;
+            bottom: 0;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            animation: expand1 1s 1s ease-out forwards;
+        }
+
+        #layer2 {
+            width: 0;
+            bottom: 60px;
+            background: linear-gradient(to right, #a18cd1, #fbc2eb);
+            animation: expand2 1s 2s ease-out forwards;
+        }
+
+        #layer3 {
+            width: 0;
+            bottom: 120px;
+            background: linear-gradient(to right, #84fab0, #8fd3f4);
+            animation: expand3 1s 3s ease-out forwards;
+        }
+
+        #layer4 {
+            width: 0;
+            bottom: 180px;
+            background: linear-gradient(to right, #ffc3a0, #ffafbd);
+            animation: expand4 1s 4s ease-out forwards;
+        }
+
+        @keyframes expand1 {
+            0% { width: 0; }
+            100% { width: 240px; }
+        }
+
+        @keyframes expand2 {
+            0% { width: 0; }
+            100% { width: 200px; }
+        }
+
+        @keyframes expand3 {
+            0% { width: 0; }
+            100% { width: 160px; }
+        }
+
+        @keyframes expand4 {
+            0% { width: 0; }
+            100% { width: 120px; }
+        }
+
+        .cake-layer:after,
+        .cake-layer:before {
+            background: rgba(255, 0, 0, 0.4);
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 3px;
+        }
+
+        .cake-layer:after {
+            top: 10px;
+        }
+
+        .cake-layer:before {
+            bottom: 10px;
+        }
+
+        .candle {
+            position: absolute;
+            width: 10px;
+            height: 30px;
+            background-color: #fff;
+            border-radius: 5px;
+            bottom: 240px;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .flame {
+            position: absolute;
+            width: 16px;
+            height: 30px;
+            background: radial-gradient(ellipse at bottom, #ffdb57, #ff5722);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            top: -25px;
+            left: -3px;
+            transform-origin: center bottom;
+            animation: flicker 0.5s infinite alternate;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        /* New blowing animation for flames */
+        .flame.blowing {
+            animation: blowOut 1s forwards;
+            transform-origin: center bottom;
+        }
+
+        @keyframes blowOut {
+            0% { transform: scale(1) rotate(0deg); opacity: 1; }
+            50% { transform: scale(0.8) rotate(15deg) translateX(10px); opacity: 0.7; }
+            100% { transform: scale(0) rotate(30deg) translateX(20px); opacity: 0; }
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0.8; }
+        }
+
+        #candle1 { left: calc(50% - 50px); }
+        #candle2 { left: calc(50% - 25px); }
+        #candle3 { left: calc(50%); }
+        #candle4 { left: calc(50% + 25px); }
+        #candle5 { left: calc(50% + 50px); }
+
+        #message {
+            position: absolute;
+            font-size: 32px;
+            font-weight: bold;
+            color: #ff4081;
+            text-align: center;
+            width: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            opacity: 0;
+            z-index: 10;
+            transition: all 1s ease;
+        }
+
+        /* New animation for the message text */
+        #message.visible {
+            opacity: 1;
+            animation: colorChange 2s infinite alternate;
+        }
+
+        #message.top-fixed {
+            top: 40px;
+            transform: translate(-50%, 0);
+            font-size: 28px;
+        }
+
+        @keyframes colorChange {
+            0% { color: #ff4081; text-shadow: 0 0 10px #ff4081; }
+            25% { color: #9c27b0; text-shadow: 0 0 10px #9c27b0; }
+            50% { color: #3f51b5; text-shadow: 0 0 10px #3f51b5; }
+            75% { color: #00bcd4; text-shadow: 0 0 10px #00bcd4; }
+            100% { color: #ff9800; text-shadow: 0 0 10px #ff9800; }
+        }
+
+        #instruction {
+            position: absolute;
+            font-size: 24px;
+            color: #673ab7;
+            text-align: center;
+            width: 100%;
+            top: 20px;
+            opacity: 0;
+            transition: opacity 1s ease;
+            z-index: 10;
+        }
+
+        #blow-button {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 1s ease;
+            z-index: 10;
+        }
+
+        /* Updated firework styling */
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: transparent;
+            opacity: 0;
+        }
+
+        @keyframes explode {
+            0% { transform: scale(0); opacity: 1; background-color: white; }
+            50% { transform: scale(30); opacity: 0.8; }
+            100% { transform: scale(40); opacity: 0; }
+        }
+
+        /* Improved confetti styling */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            animation: fall 5s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* New popper confetti style */
+        .popper-confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            animation: popperFall 4s ease-in-out;
+            opacity: 0;
+        }
+
+        @keyframes popperFall {
+            0% { transform: translateY(0) translateX(0) scale(0); opacity: 0; }
+            10% { transform: translateY(-20px) translateX(0) scale(1); opacity: 1; }
+            100% { transform: translateY(100vh) translateX(var(--x-end)) rotate(360deg); opacity: 0; }
+        }
+
+        #fireworks-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        #poppers-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        .photo-gallery {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            opacity: 0;
+            z-index: 5;
+        }
+
+        .photo-gallery img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(20px, -20px) rotate(5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        /* Bunting and Photo Styling */
+        .bunting-container {
+            position: absolute;
+            width: 100%;
+            top: 80px;
+            display: flex;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .bunting {
+            position: relative;
+            width: 90%;
+            height: 30px;
+        }
+
+        .bunting-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #000;
+            top: 0;
+        }
+
+        .bunting-flag {
+            position: absolute;
+            width: 30px;
+            height: 40px;
+            top: 0;
+            background-color: #ff4081;
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+        }
+
+        .hanging-photo {
+            position: absolute;
+            width: 115px;
+            height: 170px;
+            background-color: white;
+            border: 3px solid gold;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform-origin: top center;
+            animation: swing 3s infinite alternate ease-in-out;
+            z-index: 1;
+        }
+
+        .hanging-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .hanging-string {
+            position: absolute;
+            width: 2px;
+            height: 60px;
+            background-color: #000;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Left side photos */
+        #photo-left-1 {
+            left: 5%;
+            top: 168px;
+        }
+
+        #photo-left-2 {
+            left: 14%;
+            top: 220px;
+        }
+
+        
+
+        #photo-left-4 {
+            left: 27%;
+            top: 200px;
+        }
+
+        /* Right side photos */
+        #photo-right-1 {
+            right: 5%;
+            top: 290px;
+        }
+
+        #photo-right-3 {
+            right: 17%;
+            top: 190px;
+        }
+
+        #photo-right-4 {
+            right: 37%;
+            top: 160px;
+        }
+
+        @keyframes swing {
+            0% { transform: rotate(-5deg); }
+            100% { transform: rotate(5deg); }
+        }
+        
+        
+        
+       
+        
+        .speech-bubble {
+            position: absolute;
+            background-color: white;
+            border-radius: 10px;
+            padding: 5px 10px;
+            font-size: 14px;
+            font-weight: bold;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        
+        
+        
+        .speech-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 10px;
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: white transparent;
+        }
+        
+        @keyframes runIn {
+            0% { transform: translateX(-100%); }
+            40% { transform: translateX(calc(50vw - 100px)); }
+            60% { transform: translateX(calc(50vw - 100px)); }
+            100% { transform: translateX(100vw); }
+        }
+        
+        @keyframes showSpeech {
+            0% { opacity: 0; transform: translateY(-10px); }
+            10% { opacity: 1; transform: translateY(0); }
+            90% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-10px); }
+        }
+
+        /* Air blow visualization */
+        .blow-air {
+            position: absolute;
+            width: 100px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            bottom: 50%;
+            left: 50%;
+            transform: translate(-50%, 50%) scale(0);
+            opacity: 0;
+            z-index: 6;
+        }
+
+        @keyframes blowAir {
+            0% { transform: translate(-50%, 50%) scale(0); opacity: 0; }
+            20% { transform: translate(-50%, 40%) scale(0.5); opacity: 0.7; }
+            60% { transform: translate(-50%, 0%) scale(1.2); opacity: 0.5; }
+            100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Bunting with hanging photos -->
+    <div class="bunting-container">
+        <div class="bunting">
+            <div class="bunting-line"></div>
+            
+            <!-- Bunting flags -->
+            <div class="bunting-flag" style="left: 5%; background-color: #ff4081;"></div>
+            <div class="bunting-flag" style="left: 10%; background-color: #9c27b0;"></div>
+            <div class="bunting-flag" style="left: 15%; background-color: #3f51b5;"></div>
+            <div class="bunting-flag" style="left: 20%; background-color: #2196f3;"></div>
+            <div class="bunting-flag" style="left: 25%; background-color: #009688;"></div>
+            <div class="bunting-flag" style="left: 30%; background-color: #4caf50;"></div>
+            <div class="bunting-flag" style="left: 35%; background-color: #8bc34a;"></div>
+            <div class="bunting-flag" style="left: 40%; background-color: #cddc39;"></div>
+            <div class="bunting-flag" style="left: 45%; background-color: #ffeb3b;"></div>
+            <div class="bunting-flag" style="left: 50%; background-color: #ffc107;"></div>
+            <div class="bunting-flag" style="left: 55%; background-color: #ff9800;"></div>
+            <div class="bunting-flag" style="left: 60%; background-color: #ff5722;"></div>
+            <div class="bunting-flag" style="left: 65%; background-color: #795548;"></div>
+            <div class="bunting-flag" style="left: 70%; background-color: #9e9e9e;"></div>
+            <div class="bunting-flag" style="left: 75%; background-color: #607d8b;"></div>
+            <div class="bunting-flag" style="left: 80%; background-color: #e91e63;"></div>
+            <div class="bunting-flag" style="left: 85%; background-color: #673ab7;"></div>
+            <div class="bunting-flag" style="left: 90%; background-color: #03a9f4;"></div>
+            <div class="bunting-flag" style="left: 95%; background-color: #4caf50;"></div>
+        </div>
+    </div>
+
+    <!-- Left hanging photos -->
+    <div class="hanging-photo" id="photo-left-1">
+        <div class="hanging-string"></div>
+        <img src="k1.jpg" alt="Friend Photo 1">
+    </div>
+    <div class="hanging-photo" id="photo-left-2">
+        <div class="hanging-string"></div>
+        <img src="C:\Users\Admin\OneDrive\Desktop\cake\event.jpg" alt="Friend Photo 2">
+    </div>
+    <div class="hanging-photo" id="photo-left-4">
+        <div class="hanging-string"></div>
+        <img src="k2.jpg" alt="Friend Photo 4">
+    </div>
+
+    <!-- Right hanging photos -->
+    <div class="hanging-photo" id="photo-right-1">
+        <div class="hanging-string"></div>
+        <img src="k3.jpg" alt="Friend Photo 5">
+    </div>
+    
+    <div class="hanging-photo" id="photo-right-3">
+        <div class="hanging-string"></div>
+        <img src="C:\Users\Admin\OneDrive\Desktop\cake\kcc.jpg" alt="Friend Photo 7">
+    </div>
+    <div class="hanging-photo" id="photo-right-4">
+        <div class="hanging-string"></div>
+        <img src="C:\Users\Admin\OneDrive\Desktop\cake\metro.jpg" alt="Friend Photo 8">
+    </div>
+
+    <!-- Cake in the middle -->
+    <div id="cake-container">
+        <div class="cake-layer" id="layer1"></div>
+        <div class="cake-layer" id="layer2"></div>
+        <div class="cake-layer" id="layer3"></div>
+        <div class="cake-layer" id="layer4"></div>
+        
+        <div class="candle" id="candle1"><div class="flame" id="flame1"></div></div>
+        <div class="candle" id="candle2"><div class="flame" id="flame2"></div></div>
+        <div class="candle" id="candle3"><div class="flame" id="flame3"></div></div>
+        <div class="candle" id="candle4"><div class="flame" id="flame4"></div></div>
+        <div class="candle" id="candle5"><div class="flame" id="flame5"></div></div>
+    </div>
+
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+          <source src="bg.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        
+      </div>
+      
+
+
+    <!-- Video container -->
+    <div id="video-container" style="position: absolute; left: 10%; top: 75%; transform: translateY(-50%); width: 300px; height: 300px;; opacity: 0; transition: opacity 1s ease; z-index: 3;">
+        <video id="birthday-video" width="100%" height="auto" controls autoplay>
+            <source src="celebrate.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Air blow effect container -->
+    <div class="blow-air" id="blow-effect"></div>
+
+    <div id="message">HAPPY BIRTHDAY!</div>
+    <div id="instruction">Make a wish and blow out the candles!</div>
+    <button id="blow-button">Blow Candles</button>
+
+    <div id="fireworks-container"></div>
+    <div id="poppers-container"></div>
+    
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create background confetti
+            createConfetti();
+        
+        
+    
+            // Candles will appear after cake is fully assembled
+            // setTimeout(() => {
+            //     const candles = document.querySelectorAll('.candle');
+            //     candles.forEach(candle => {
+            //         candle.style.opacity = '1';
+            //     });
+    
+                // // Light up the candles
+                // setTimeout(() => {
+                //     const flames = document.querySelectorAll('.flame');
+                //     flames.forEach(flame => {
+                //         flame.style.opacity = '1';
+                //     });
+
+                    const videoContainer = document.getElementById('video-container');
+                    const birthdayVideo = document.getElementById('birthday-video');
+                    
+                    videoContainer.style.opacity = '1';
+                    birthdayVideo.play();
+
+                    birthdayVideo.muted = false;
+
+                    // Make video disappear after it ends
+    birthdayVideo.addEventListener('ended', function() {
+        videoContainer.style.opacity = '0';
+        
+        // Optional: remove from DOM after fade out completes
+        setTimeout(() => {
+            videoContainer.style.display = 'none';
+        }, 1000); // Match this to your transition duration (1s)
+    });
+    
+    // Wait for cake animation to complete before showing candles (5 seconds)
+    setTimeout(() => {
+        // Now show the candles (but not the flames yet)
+        const candles = document.querySelectorAll('.candle');
+        candles.forEach(candle => {
+            candle.style.opacity = '1';
+        });
+        
+        // Add time update listener to track video progress
+        let instructionsShown = false;
+        birthdayVideo.addEventListener('timeupdate', function() {
+            // When video reaches 33 seconds
+            if (birthdayVideo.currentTime >= 33 && !instructionsShown) {
+                instructionsShown = true;
+                
+                // Light up the candles
+                const flames = document.querySelectorAll('.flame');
+                flames.forEach(flame => {
+                    flame.style.opacity = '1';
+                });
+                
+                // Show instruction and blow button
+                document.getElementById('instruction').style.opacity = '1';
+                document.getElementById('blow-button').style.opacity = '1';
+                let countdownValue = 5;
+        const countdownElement = document.getElementById('countdown');
+        
+        function updateCountdown() {
+            if (countdownValue > 0) {
+                // Show and update countdown
+                countdownElement.textContent = countdownValue;
+                countdownElement.style.opacity = '1';
+                
+                // Animate countdown
+                countdownElement.animate([
+                    { transform: 'translate(-50%, -50%) scale(1.2)', opacity: '1' },
+                    { transform: 'translate(-50%, -50%) scale(0.8)', opacity: '0.5' }
+                ], {
+                    duration: 800,
+                    easing: 'ease-out'
+                });
+                
+                countdownValue--;
+                setTimeout(updateCountdown, 1000);
+            } else {
+                // Countdown finished, hide the element
+                countdownElement.style.opacity = '0';
+                
+                // Blow candles
+                setTimeout(() => {
+                    blowCandles();
+                }, 200);
+            }
+        }
+        
+        // Start the countdown
+        updateCountdown();
+    }
+});
+
+
+
+
+    }, 5000); // Wait 5 seconds for cake animation to complete
+    
+    // Set up blow button
+    const blowButton = document.getElementById('blow-button');
+    blowButton.addEventListener('click', blowCandles);
+            function blowCandles() {
+                // Hide instruction and blow button
+                document.getElementById('instruction').style.opacity = '0';
+                document.getElementById('blow-button').style.opacity = '0';
+    
+                // Show air blow effect
+                const blowEffect = document.getElementById('blow-effect');
+                blowEffect.style.animation = 'blowAir 2s forwards';
+    
+                // Apply blowing animation to flames
+                const flames = document.querySelectorAll('.flame');
+                flames.forEach((flame, index) => {
+                    // Stagger the blowing effect slightly
+                    setTimeout(() => {
+                        flame.classList.add('blowing');
+                    }, index * 100);
+                });
+    
+                // Start fireworks
+                setTimeout(() => {
+                    createFireworks();
+    
+                    // Start popper confetti after 0.5 seconds
+                    setTimeout(() => {
+                        createPopperConfetti();
+    
+                        // Show "Happy Birthday" text after 1 second
+                        setTimeout(() => {
+                            const message = document.getElementById('message');
+                            message.classList.add('visible');
+    
+                            // Move the text to the top after 2 seconds
+                            setTimeout(() => {
+                                message.classList.add('top-fixed');
+    
+                                
+                                setTimeout(() => {
+                                setTimeout(() => {
+                                        
+                                    }, 5000);
+                                }, 500);
+                            }, 2000);
+                        }, 1000);
+                    }, 500);
+                }, 1000);
+            }
+    
+            function createConfetti() {
+                const colors = ['#ff4081', '#3f51b5', '#009688', '#ff9800', '#9c27b0'];
+                const confettiCount = 100;
+    
+                for (let i = 0; i < confettiCount; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = Math.random() * 10 + 5 + 'px';
+                    confetti.style.height = Math.random() * 10 + 5 + 'px';
+                    confetti.style.animationDelay = Math.random() * 5 + 's';
+    
+                    document.body.appendChild(confetti);
+                }
+            }
+    
+            function createPopperConfetti() {
+                const colors = ['#ff4081', '#3f51b5', '#009688', '#ff9800', '#9c27b0', '#ffeb3b', '#4caf50'];
+                const confettiCount = 150;
+                const popperContainer = document.getElementById('poppers-container');
+    
+                // Create popper sources on left and right sides
+                const popperPositions = [
+                    {x: window.innerWidth * 0.2, y: window.innerHeight * 0.3},
+                    {x: window.innerWidth * 0.8, y: window.innerHeight * 0.3},
+                    {x: window.innerWidth * 0.5, y: window.innerHeight * 0.3}
+                ];
+    
+                popperPositions.forEach((position, posIndex) => {
+                    // Stagger the poppers slightly
+                    setTimeout(() => {
+                        for (let i = 0; i < confettiCount / popperPositions.length; i++) {
+                            const confetti = document.createElement('div');
+                            confetti.className = 'popper-confetti';
+    
+                            // Random end position from start position
+                            const xEnd = (Math.random() - 0.5) * 400;
+                            confetti.style.setProperty('--x-end', `${xEnd}px`);
+    
+                            confetti.style.left = position.x + 'px';
+                            confetti.style.top = position.y + 'px';
+                            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    
+                            // Random sizes for confetti pieces
+                            const size = Math.random() * 8 + 4;
+                            confetti.style.width = size + 'px';
+                            confetti.style.height = size + 'px';
+    
+                            // Randomize the shapes (circle, square, triangle)
+                            const shapes = ['50%', '0%', '50% 0 0 50%'];
+                            confetti.style.borderRadius = shapes[Math.floor(Math.random() * shapes.length)];
+    
+                            // Random delay for more natural burst
+                            confetti.style.animationDelay = (Math.random() * 0.5) + 's';
+    
+                            popperContainer.appendChild(confetti);
+    
+                            // Remove after animation completes
+                            setTimeout(() => {
+                                confetti.remove();
+                            }, 4000);
+                        }
+                    }, posIndex * 300);
+                });
+            }
+    
+            function createFireworks() {
+                const fireworksContainer = document.getElementById('fireworks-container');
+    
+                // Function to create a single firework
+                function createSingleFirework() {
+                    const colors = [
+                        '#ff4081', '#3f51b5', '#009688',
+                        '#ff9800', '#9c27b0', '#ffeb3b',
+                        '#03a9f4', '#8bc34a', '#e91e63'
+                    ];
+    
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+    
+                    // Random position
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * (window.innerHeight * 0.7);
+    
+                    firework.style.left = x + 'px';
+                    firework.style.top = y + 'px';
+    
+                    // Random color
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    firework.style.boxShadow = `0 0 8px 4px ${color}`;
+    
+                    firework.style.animation = 'explode 1s forwards';
+    
+                    fireworksContainer.appendChild(firework);
+    
+                    // Remove after animation
+                    setTimeout(() => {
+                        firework.remove();
+                    }, 1000);
+                }
+    
+                // Create initial batch of fireworks
+                for (let i = 0; i < 10; i++) {
+                    setTimeout(createSingleFirework, i * 300);
+                }
+    
+                // Continue creating fireworks
+                setInterval(() => {
+                    createSingleFirework();
+                }, 800);
+            }
+    
+           
+        });
+
+        const countdownElement = document.createElement('div');
+countdownElement.id = 'countdown';
+countdownElement.style.position = 'absolute';
+countdownElement.style.top = '30%';
+countdownElement.style.left = '50%';
+countdownElement.style.transform = 'translate(-50%, -50%)';
+countdownElement.style.fontSize = '80px';
+countdownElement.style.fontWeight = 'bold';
+countdownElement.style.color = '#ff4081';
+countdownElement.style.zIndex = '20';
+countdownElement.style.opacity = '0';
+countdownElement.style.textShadow = '0 0 10px rgba(255,64,129,0.8)';
+document.body.appendChild(countdownElement);
+    </script>
+
+
+</body>
+</html>
